@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VR Products</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* تنسيقات شريط التنقل */
+        nav {
+            background-color: #333;
+            padding: 0px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+        }
+
+        nav ul li {
+            margin-right: 20px;
+            position: relative; /* لإظهار القائمة المنسدلة بشكل صحيح */
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0px 11px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #ffcc00;
+        }
+
+        .cart-btn {
+            font-size: 24px;
+            color: white;
+            margin-left: 30px;
+            position: relative;
+            transition: transform 0.3s;
+        }
+
+        .cart-btn:active {
+            transform: translateX(5px);
+        }
+
+        /* تنسيق زر البحث */
+        .search-btn {
+            font-size: 24px;
+            color: white;
+            transition: color 0.3s;
+            margin-right: 10px;
+        }
+
+        .search-btn:hover {
+            color: #ffcc00;
+        }
+
+        .search-btn:active {
+            transform: scale(1.1);
+        }
+
+        /* تنسيقات شريط البحث */
+        .search-bar-container {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+        }
+
+        .search-bar {
+            background-color: white;
+            border-radius: 4px;
+            padding: 5px 10px;
+            border: none;
+            outline: none;
+            width: 0;
+            transition: width 0.4s ease;
+            opacity: 0;
+            margin-left: 10px;
+        }
+
+        .search-bar.open {
+            width: 200px;
+            opacity: 1;
+        }
+
+        /* تنسيقات النجوم */
+        .stars {
+            display: flex;
+            justify-content: center;
+            margin: 0 auto;
+            margin-right: auto; /* لضبطها في المنتصف مائلًا قليلاً إلى اليسار */
+        }
+
+        .stars i {
+            color: #ffcc00;
+            font-size: 20px;
+            margin-right: 5px;
+        }
+
+        /* تنسيقات زر النقاط الثلاث */
+        .three-dots {
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-left: auto; /* محاذاة الزر إلى اليمين */
+            padding: 10px;
+            position: relative;
+            transition: all 0.s ease;
+        }
+
+        .dot {
+            height: 5px;
+            width: 5px;
+            background-color: white; /* لون النقاط */
+            border-radius: 50%;
+            margin: 2px 0; /* مسافة بين النقاط */
+            transition: all 0.3s ease; /* تأثير الحركة للنقاط */
+        }
+
+        /* تنسيقات القائمة المنسدلة */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: rgba(39, 31, 31, 0.503); /* لون خلفية شفاف */
+            border-radius: 8px; /* زوايا دائرية */
+            box-shadow: 0px 4px 10px rgba(245, 227, 91, 0.536); /* تأثير الظل */
+            z-index: 1;
+            right: 0; /* محاذاة القائمة إلى اليمين */
+            margin-top: 10px; /* مسافة بين الزر والقائمة */
+        }
+
+        .dropdown-content a {
+            color: rgb(255, 255, 255);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s; /* تأثير الخلفية عند المرور */
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        /* إظهار القائمة عند النقر */
+        .show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#games">Games</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="login.html" class="login-btn">Login</a></li>
+                
+                <!-- زر النقاط الثلاث -->
+                <li class="three-dots" onclick="toggleDropdown(event)">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dropdown-content">
+                        <a href="profile.html">Profile</a>
+                        <a href="contact.html">Support</a>
+                        <a href="#logout">Logout</a>
+                    </div>
+                </li>
+
+                <li style="position: relative;">
+                    <a href="checkout.html" class="cart-btn">
+                        <i class="fas fa-shopping-cart"></i>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- النجوم في المنتصف -->
+            <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+            </div>
+
+            <!-- زر البحث مع شريط البحث في يمين الشريط -->
+            <div class="search-bar-container">
+                <a href="#search" class="search-btn" onclick="toggleSearchBar(event)">
+                    <i class="fas fa-search"></i>
+                </a>
+                <input type="text" id="searchBar" class="search-bar" placeholder="Search...">
+            </div>
+        </nav>
+    </header>
+
+    <script>
+        // دالة لتبديل عرض القائمة المنسدلة عند الضغط على زر النقاط الثلاث
+        function toggleDropdown(event) {
+            event.stopPropagation(); // منع الحدث من الانتشار إلى العناصر الأبوية
+            const dropdown = event.currentTarget.querySelector('.dropdown-content');
+            dropdown.classList.toggle('show');
+        }
+
+        // إغلاق القائمة المنسدلة عند الضغط في أي مكان آخر في الشاشة
+        window.onclick = function(event) {
+            if (!event.target.matches('.three-dots') && !event.target.closest('.three-dots')) {
+                const dropdowns = document.getElementsByClassName("dropdown-content");
+                for (let i = 0; i < dropdowns.length; i++) {
+                    dropdowns[i].classList.remove('show');
+                }
+            }
+        }
+    </script>
+</body>
+    <script>
+        // دالة لتبديل حالة ظهور شريط البحث
+        function toggleSearchBar(event) {
+            event.preventDefault();
+            const searchBar = document.getElementById('searchBar');
+            searchBar.classList.toggle('open');
+            searchBar.focus();
+
+            // إضافة مستمع للنقر في أي مكان لإغلاق شريط البحث
+            document.addEventListener('click', function handleClickOutside(event) {
+                if (!event.target.closest('.search-bar-container')) {
+                    searchBar.classList.remove('open');
+                    document.removeEventListener('click', handleClickOutside);
+                }
+            });
+        }
+    </script>
+</body>
+
+    <script>
+        // دالة لتبديل حالة ظهور شريط البحث
+        function toggleSearchBar(event) {
+            event.preventDefault();
+            const searchBar = document.getElementById('searchBar');
+            searchBar.classList.toggle('open');
+            searchBar.focus();
+
+            // إضافة مستمع للنقر في أي مكان لإغلاق شريط البحث
+            document.addEventListener('click', function handleClickOutside(event) {
+                if (!event.target.closest('.search-bar-container')) {
+                    searchBar.classList.remove('open');
+                    document.removeEventListener('click', handleClickOutside);
+                }
+            });
+        }
+    </script>
+</body>
+    <script>
+        // دالة لتبديل حالة ظهور شريط البحث
+        function toggleSearchBar(event) {
+            event.preventDefault();
+            const searchBar = document.getElementById('searchBar');
+            searchBar.classList.toggle('open');
+            searchBar.focus();
+
+            // إضافة مستمع للنقر في أي مكان لإغلاق شريط البحث
+            document.addEventListener('click', function handleClickOutside(event) {
+                if (!event.target.closest('.search-bar-container')) {
+                    searchBar.classList.remove('open');
+                    document.removeEventListener('click', handleClickOutside);
+                }
+            });
+        }
+    </script>
+</body>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <img src="so3.jpg" alt="Welcome Image">
+        <div class="text">
+            <h1>Welcome to Our Platform</h1>
+            <p>We provide high-quality resources and support to help you achieve your academic goals. Join us and take your learning experience to the next level!</p>
+        </div>
+    </section>
+
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <video autoplay muted loop class="background-video">
+            <source src="ved1.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="about-content">
+            <h2>About Us</h2>
+            <p>Virtual Reality Technology is the future of immersive experiences, allowing users to interact with environments in ways never before imagined.</p>
+            <a href="#" class="visit-btn">Visit Now</a>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+        <h2>Our Services</h2>
+        <ul>
+            <li>VR Consultation and Setup</li>
+            <li>Immersive Gaming Experiences</li>
+            <li>Custom VR Solutions</li>
+        </ul>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products">
+        <h2>Our Products</h2>
+        <div class="product-list">
+            <div class="product">
+                <img src="so8.avif" alt="VR Black">
+                <h3>VR-Black</h3>
+                <p>$20.5</p>
+                <table>
+                    <tr><td>Resolution:</td><td>1080p</td></tr>
+                    <tr><td>Weight:</td><td>300g</td></tr>
+                    <tr><td>Battery Life:</td><td>6 hours</td></tr>
+                </table>
+                <a href="checkout.html" class="buy-btn">Buy Now</a>
+            </div>
+            <div class="product">
+                <img src="so7.avif" alt="VR Black 2">
+                <h3>VR-Black 2</h3>
+                <p>$23</p>
+                <table>
+                    <tr><td>Resolution:</td><td>1440p</td></tr>
+                    <tr><td>Weight:</td><td>320g</td></tr>
+                    <tr><td>Battery Life:</td><td>8 hours</td></tr>
+                </table>
+                <a href="checkout.html" class="buy-btn">Buy Now</a>
+            </div>
+            <div class="product">
+                <img src="so6.avif" alt="VR White">
+                <h3>VR-White</h3>
+                <p>$23.5</p>
+                <table>
+                    <tr><td>Resolution:</td><td>1440p</td></tr>
+                    <tr><td>Weight:</td><td>310g</td></tr>
+                    <tr><td>Battery Life:</td><td>7 hours</td></tr>
+                </table>
+                <a href="checkout.html" class="buy-btn">Buy Now</a>
+
+            </div>
+            <div class="product">
+                <img src="so9.avif" alt="VR Black 3">
+                <h3>VR-Black 3</h3>
+                <p>$27.5</p>
+                <table>
+                    <tr><td>Resolution:</td><td>4K</td></tr>
+                    <tr><td>Weight:</td><td>300g</td></tr>
+                    <tr><td>Battery Life:</td><td>9.5 hours</td></tr>
+                </table>
+                <a href="checkout.html" class="buy-btn">Buy Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Games Section -->
+    <section id="games">
+        <h2>Games</h2>
+        <p>Experience the future of gaming with our VR platform, bringing you into an immersive and interactive world.</p>
+        <div class="games-content">
+            <img src="so10.avif" alt="VR Games" class="games-image">
+            <img src="so11.png" alt="Second Image" class="small-image">
+        </div>
+        <p>★★★★★</p>
+    </section>
+
+    
+    
+    
+    </section>
+    
+    <section id="blog">
+        <div class="container">
+            <h2 style="text-align: center; color: #7e16fe; font-family: 'Arial', sans-serif;">من مدونتنا</h2>
+            <div class="blog-cards">
+                <article class="blog-card">
+                    <img src="so17.svg" alt="Blog Image 1" style="width: 30%; max-width: 300px; height: auto;">
+                    <div class="card-content" style="padding: 20px; text-align: center;">
+                        <h3 style="font-size: 30px; color: #ffffff;">عنوان المقالة 1</h3>
+                        <p style="font-size: 16px; color: #ffffff; line-height: 1.6;">اكتشف insights حول الاتجاهات الحديثة في المجال واحصل على نصائح وممارسات جيدة.</p>
+                        <a href="article.html" class="read-more" style="color: #6a5acd; font-weight: bold;">اقرأ المزيد &rarr;</a>
+                        
+                     </div>
+                </article>
+                
+                <article class="blog-card">
+                    <img src="so15.svg" alt="Blog Image 2" style="width: 30%; max-width: 300px; height: auto;">
+                    <div class="card-content" style="padding: 20px; text-align: center;">
+                        <h3 style="font-size: 30px; color: #ffffff;">عنوان المقالة 2</h3>
+                        <p style="font-size: 16px; color: #ffffff; line-height: 1.6;">احصل على المعرفة لتحسين مهاراتك وتطوير مسيرتك المهنية من خلال نصائح الخبراء.</p>
+                        <a href="article.html" class="read-more" style="color: #6a5acd; font-weight: bold;">اقرأ المزيد &rarr;</a>
+                        
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+    
+    
+    
+    
+    <section id="cta">
+        <div class="cta-content">
+            <div class="image">
+                <img src="so13.png" alt="Try VR" class="cta-image">
+            </div>
+            <div class="text">
+                <h2>ماذا تنتظر؟ جرب الآن!</h2>
+                <p>تقنيات الواقع الافتراضي تتيح لك الغمر في عالم ثلاثي الأبعاد وتجربة فريدة من نوعها.</p>
+                <a href="checkout.html" class="visit-btn">جرب الآن</a>
+            </div>
+        </div>
+    </section>
+    
+
+    <script>
+        document.querySelectorAll('.visit-btn, .buy-btn').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                alert('Button Clicked: ' + this.textContent);
+            });
+        });
+    </script>
+
+<footer>
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>عن الشركة</h3>
+            <p>نحن متخصصون في تقنيات الواقع الافتراضي لتوفير تجربة غامرة وفريدة.</p>
+        </div>
+        <div class="footer-section">
+            <h3>روابط سريعة</h3>
+            <ul>
+                <li><a href="#home">الصفحة الرئيسية</a></li>
+                <li><a href="#about">معلومات عنا</a></li>
+                <li><a href="#products">المنتجات</a></li>
+                <li><a href="#games">الألعاب</a></li>
+                <li><a href="contact.html">اتصل بنا</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>تابعنا</h3>
+            <ul class="social-media">
+                <li><a href="https://www.facebook.com/profile.php?id=61556398405694"><i class="fab fa-facebook-f"></i></a></li>
+                <li><a href="https://x.com/yousef_mokaa0"><i class="fab fa-twitter"></i></a></li>
+                <li><a href="https://www.instagram.com/youseph__waheed/?next=%2F"><i class="fab fa-instagram"></i></a></li>
+                <li><a href="https://www.linkedin.com/in/yousef-waheed-7210aa282/"><i class="fab fa-linkedin-in"></i></a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>حقوق الطبع والنشر</h3>
+            <p>جميع الحقوق محفوظة &copy; 2024</p>
+        </div>
+    </div>
+</footer>
+
+
+</body>
+</html>

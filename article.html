@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مقالة</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1B1D2F;
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #2A2D45;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #7e16fe;
+        }
+
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .nav-buttons {
+            margin-top: 20px;
+        }
+
+        .nav-btn {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 10px 20px;
+            background-color: #6a5acd;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #6a5acd;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="article-container" id="article-content">
+        <!-- المحتوى سيظهر هنا بناءً على القسم المحدد -->
+    </div>
+
+    <div class="nav-buttons">
+        <a href="javascript:void(0)" onclick="loadArticle(0)" class="nav-btn">عرض القسم الأول</a>
+        <a href="javascript:void(0)" onclick="loadArticle(1)" class="nav-btn">عرض القسم الثاني</a>
+    </div>
+
+    <a href="index.html" class="back-btn">العودة إلى الصفحة الرئيسية</a>
+
+    <script>
+        // الحصول على رقم المقالة من عنوان الرابط
+        const urlParams = new URLSearchParams(window.location.search);
+        const articleId = urlParams.get('articleId'); // يحصل على رقم المقالة التي نضغط عليها
+
+        // المحتويات لكل قسم
+        const articles = [
+            {
+                title: 'عنوان المقالة للقسم الأول',
+                content: 'اكتشف insights حول الاتجاهات الحديثة في المجال واحصل على نصائح وممارسات جيدة للقسم الأول. هنا ستجد كل ما تحتاج معرفته حول أفضل الممارسات التي يجب اتباعها.'
+            },
+            {
+                title: 'عنوان المقالة للقسم الثاني',
+                content: 'احصل على المعرفة لتحسين مهاراتك وتطوير مسيرتك المهنية من خلال نصائح الخبراء للقسم الثاني. هنا ستجد نصائح عملية وتوجيهات لتعزيز مهاراتك وزيادة الأداء المهني.'
+            }
+        ];
+
+        // عرض المقال بناءً على رقم المقالة
+        function loadArticle(articleId) {
+            const article = articles[articleId];
+            document.getElementById('article-content').innerHTML = `
+                <h1>${article.title}</h1>
+                <p>${article.content}</p>
+                <a href="index.html" class="back-btn">العودة إلى الصفحة الرئيسية</a>
+            `;
+        }
+
+        // تحميل أول مقال عند الدخول بدون رقم المقالة في الرابط
+        if (articleId === null) {
+            loadArticle(0); // تحميل القسم الأول كافتراضي
+        }
+    </script>
+
+</body>
+</html>

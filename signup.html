@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="signup.css">
+</head>
+<body>
+
+    <!-- Video Background -->
+    <div class="video-background">
+        <video autoplay muted loop>
+            <source src="ved2.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <h2 class="neon-text">Create a New Account</h2>
+
+    <!-- Sign Up Form -->
+    <div class="signup-form">
+        <h1>Create a New Account</h1>
+        <p>Join our platform and explore the possibilities of virtual reality.</p>
+        
+        <form id="signup-form">
+            <label for="username">Username:</label>
+            <input type="text" id="username" placeholder="Enter your username" required>
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" placeholder="Enter your email" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" placeholder="Create a password" required>
+
+            <label for="confirm-password">Confirm Password:</label>
+            <input type="password" id="confirm-password" placeholder="Confirm your password" required>
+
+            <button type="submit" id="signup-btn">Sign Up</button>
+        </form>
+
+        <p class="footer-text">Already have an account? <a href="login.html">Login</a></p>
+        <a href="index.html" class="home-btn">Home</a>
+    </div>
+      
+    <head>
+        <script src="https://www.google.com/recaptcha/enterprise.js?render=6Le3q28qAAAAAIns6TiTFz6EitduGL99LzacGCxK"></script>
+        <!-- Your code -->
+      </head>
+    <script>
+        document.getElementById('signup-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            // الحقول
+            const username = document.getElementById('username').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            // التحقق من اسم المستخدم
+            if (username === "") {
+                alert("Username is required.");
+                return;
+            }
+
+            // التحقق من البريد الإلكتروني
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                alert("Please enter a valid email address.");
+                return;
+            }
+
+            // التحقق من كلمة المرور
+            const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
+            if (!passwordPattern.test(password)) {
+                alert("Password must be at least 8 characters long, with at least one uppercase letter, one lowercase letter, and one number.");
+                return;
+            }
+
+            // التحقق من تأكيد كلمة المرور
+            if (password !== confirmPassword) {
+                alert("Passwords do not match.");
+                return;
+            }
+
+            alert("Registration successful!"); // هنا يمكن استبدالها بوظيفة التسجيل
+        });
+    </script>
+     
+</body>
+</html>

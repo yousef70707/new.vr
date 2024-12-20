@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Profile - VR Store</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* أنماط عامة */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .profile-container {
+            max-width: 900px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .profile-header {
+            position: relative;
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+        }
+
+        .background-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .profile-details {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .profile-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid white;
+        }
+
+        .info {
+            flex-grow: 1;
+        }
+
+        .edit-btn, .settings-btn {
+            background: #007bff; /* لون أزرق أفتح */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .edit-btn:hover, .settings-btn:hover {
+            background: #0056b3; /* تحسين لون الهفر */
+        }
+
+        .profile-content {
+            padding: 20px;
+        }
+
+        .status-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .skills {
+            margin-top: 20px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #007bff;
+            color: white;
+            border-radius: 3px;
+            padding: 5px 10px;
+            margin: 5px;
+        }
+
+        /* قسم التعليقات */
+        .comments-section {
+            margin-top: 30px;
+        }
+
+        .comment {
+            background: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            border-left: 3px solid #007bff; /* خط جانبي تحت التعليق */
+        }
+
+        .add-comment {
+            margin-top: 10px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        /* نموذج تعديل المعلومات */
+        .edit-profile-modal {
+            display: none; /* مغلق بشكل افتراضي */
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .edit-profile-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 400px;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ff5733; /* لون أحمر برتقالي */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* مقاطع الفيديو */
+        .video-container {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .video {
+            width: 100%;
+            max-width: 560px;
+            height: 315px;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <div class="profile-header">
+            <div class="background-overlay"></div>
+            <div class="profile-details">
+                <img src="customer-photo.jpg" alt="Customer Photo" class="profile-image">
+                <div class="info">
+                    <h2 id="customerName">John Doe</h2>
+                    <p class="role">Customer</p>
+                    <p class="location" id="customerLocation">New York, USA</p>
+                </div>
+                <button class="edit-btn" onclick="openEditModal()">Edit Profile</button>
+                <button class="settings-btn">Settings</button>
+            </div>
+        </div>
+
+        <div class="profile-content">
+            <h3>Account Information</h3>
+            <p><strong>Email:</strong> <span id="customerEmail">johndoe@example.com</span></p>
+            <p><strong>Phone:</strong> <span id="customerPhone">+1 234 567 890</span></p>
+            <p><strong>Join Date:</strong> January 1, 2021</p>
+            
+            <h4>Account Features</h4>
+            <ul>
+                <li>Option to change password</li>
+                <li>View purchase history</li>
+                <li>Track order status</li>
+                <li>Manage addresses</li>
+                <li>Set payment methods</li>
+                <li>Receive promotional offers</li>
+                <li>Notification preferences</li>
+                <li>Account security settings</li>
+                <li>Review and rate products</li>
+                <li>Saved payment methods</li>
+            </ul>
+
+            <div class="status-cards">
+                <div class="card">
+                    <h3>Ready to Shop</h3>
+                    <p>Let us know if you are ready to place an order.</p>
+                </div>
+                <div class="card">
+                    <h3>Wishlist</h3>
+                    <p>See your saved items for future purchases.</p>
+                </div>
+                <div class="card">
+                    <h3>Order History</h3>
+                    <p>View your past orders and their details.</p>
+                </div>
+                <div class="card">
+                    <h3>Pending Orders</h3>
+                    <p>Check your orders that are being processed.</p>
+                </div>
+                <div class="card">
+                    <h3>Support Tickets</h3>
+                    <p>Manage your support requests.</p>
+                </div>
+                <div class="card">
+                    <h3>Gift Cards</h3>
+                    <p>Check your available gift cards.</p>
+                </div>
+                <div class="card">
+                    <h3>Favorites</h3>
+                    <p>Your favorite products.</p>
+                </div>
+            </div>
+            
+            <div class="skills">
+                <h4>Favorites</h4>
+                <span class="tag">VR Headsets</span>
+                <span class="tag">VR Games</span>
+                <span class="tag">Accessories</span>
+                <span class="tag">Experiences</span>
+            </div>
+
+            <div class="comments-section">
+                <h4>User Comments</h4>
+                <div id="commentList"></div>
+                <textarea id="commentInput" placeholder="Add a comment..." rows="4" class="add-comment"></textarea>
+                <button onclick="addComment()">Submit Comment</button>
+            </div>
+
+            <div class="video-container">
+                <h4>Featured VR Products</h4>
+                <iframe class="video" src="https://www.youtube.com/embed/VR_PRODUCT_VIDEO_ID" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- نموذج تعديل المعلومات -->
+    <div class="edit-profile-modal" id="editProfileModal">
+        <div class="edit-profile-content">
+            <button class="close-modal" onclick="closeEditModal()">×</button>
+            <h3>Edit Profile</h3>
+            <label for="nameInput">Name:</label>
+            <input type="text" id="nameInput" value="John Doe" /><br />
+            <label for="emailInput">Email:</label>
+            <input type="email" id="emailInput" value="johndoe@example.com" /><br />
+            <label for="phoneInput">Phone:</label>
+            <input type="tel" id="phoneInput" value="+1 234 567 890" /><br />
+            <label for="locationInput">Location:</label>
+            <input type="text" id="locationInput" value="New York, USA" /><br />
+            <button onclick="saveProfile()">Save Changes</button>
+        </div>
+    </div>
+
+    <script>
+        // فتح نموذج تعديل المعلومات
+        function openEditModal() {
+            document.getElementById('editProfileModal').style.display = 'flex';
+        }
+
+        // إغلاق نموذج تعديل المعلومات
+        function closeEditModal() {
+            document.getElementById('editProfileModal').style.display = 'none';
+        }
+
+        // حفظ التغييرات
+        function saveProfile() {
+            const name = document.getElementById('nameInput').value;
+            const email = document.getElementById('emailInput').value;
+            const phone = document.getElementById('phoneInput').value;
+            const location = document.getElementById('locationInput').value;
+
+            document.getElementById('customerName').innerText = name;
+            document.getElementById('customerEmail').innerText = email;
+            document.getElementById('customerPhone').innerText = phone;
+            document.getElementById('customerLocation').innerText = location;
+
+            closeEditModal();
+
+            // رسالة تأكيد بعد الحفظ
+            alert('تم حفظ التغييرات بنجاح!');
+        }
+
+        // إضافة تعليق
+        function addComment() {
+            const commentInput = document.getElementById('commentInput');
+            const commentText = commentInput.value.trim();
+            if (commentText) {
+                const commentList = document.getElementById('commentList');
+                const newComment = document.createElement('div');
+                newComment.className = 'comment';
+                newComment.innerText = commentText;
+                commentList.appendChild(newComment);
+                commentInput.value = ''; // مسح حقل التعليق بعد الإرسال
+
+                // رسالة تأكيد
+                alert('تم إضافة التعليق بنجاح!');
+            } else {
+                alert('الرجاء إدخال تعليق.');
+            }
+        }
+    </script>
+</body>
+</html>
